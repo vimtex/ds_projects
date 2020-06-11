@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+input[type=text], select {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+input[type=submit] {
+  width: 20%;
+  background-color: #4CAF50;
+  color: white;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+input[type=submit]:hover {
+  background-color: #45a049;
+}
+
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: auto;
+}
+
+table.center {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+td, th {
+  border: 1px solid #dddddd;
+  text-align: right;
+  padding: 8px;
+}
+
+tr:nth-child(even) {
+  background-color: #dddddd;
+}
+
+</style>
+
+<title>{{title}}</title>
+</head>
+<body>
+
+<h1 style="background-color:powderblue; border:2px solid DodgerBlue;">{{title}}</h1>
+<!-- hr -->
+<p>Server is up:)</p>
+
+<h3>About</h3>
+<p>Here is a concise but highly accurate neural network model 
+for predicting the heat of formation of a compound based on its 
+chemical formula. 
+<br>
+The accuracy is about 43 meV/atom, reaching the so-called 
+<a href="https://chemistry.stackexchange.com/questions/62001/why-is-chemical-accuracy-defined-as-1-kcal-mol#:~:text=Chemical%20accuracy%20is%20the%20accuracy,mol%20or%204%20kJ%2Fmol">Chemical Accuracy</a>, 
+and hence allowing for realistic applications without complicated atomic simulations.</p>
+
+<h3>Usage</h3> 
+<p>
+Input: space seprated chemical formula, number 1 is needed (Sn1O1 Sn.5O1.0).
+<br>
+<b>Currently, only the following elements are supported:</b>
+</p>
+<pre>
+    H  Li Be B  C  N  O  F  Na Mg Al Si P  S  Cl 
+    K  Ca Sc Ti V  Cr Mn Fe Co Ni Cu Zn Ga Ge As Se Br Kr
+    Rb Sr Y  Zr Nb Mo Tc Ru Rh Pd Ag Cd In Sn Sb Te I  Xe
+    Cs Ba La Ce Pr Nd Pm Sm Eu Gd Tb Dy Ho Er Tm Yb Lu Hf Ta W Re Os Ir Pt Au Hg Tl Pb Bi Ac Th Pa U Np Pu
+</pre>
+
+<form action="{{ url_for('main') }}" method="POST">
+    <fieldset>
+        <legend>Compounds:</legend>
+        <input name="Compounds" type="text" required>
+        <br>
+        <input type="submit">
+    </fieldset>
+</form>
+<br>
+
+<div>
+    {% if result %}
+      <fieldset align='left'>
+        <legend>Prediction:</legend>
+          <table class='center'>
+            <tr>
+              <th>Compound</th>
+              <th>Heat of Formation (eV/atom)</th>
+            </tr>
+            {% for x, y in result %}
+              <tr>
+                <th>{{ x }}</th>
+                <th>{{ "%.2f"|format(y) }}</th>
+              </tr> 
+            {% endfor %}
+          </table>
+      </fieldset>
+    {% endif %}
+</div>
+
+<hr>
+<p> If you prefer to command line, you can also use <a href="https://curl.haxx.se/"><b>cURL</b></a>:</p>
+
+<p>
+# curl -X POST URL:PORT/curl -H 'Content-Type: application/json' -d '"Sn1O2"'<br>
+# curl -X POST URL:PORT/curl -H 'Content-Type: application/json' -d '"Sn1O2 Sn.5O1."'<br>
+# curl -X POST URL:PORT/curl -H 'Content-Type: application/json' -d '"Sn1O1 Sn1O2 Sn2O3 Zn1O1 Zn1Sn1O2 Zn1Sn1O3 Zn2Sn1O3 Zn3Sn1O4"'<br>
+</p>
+
+
+</body>
+</html>
