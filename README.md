@@ -17,11 +17,11 @@ Sn2O3                                     -1.483 ev/atom
 Zn1O1                                     -1.606 ev/atom  
 Zn1Sn1O2                                  -1.450 ev/atom  
 
-To test the docker, first build and run the image:
-$ docker build -t app-hf  .
-$ docker run -p 5000:5000 app-hf
-and then use the curl command line:
-$ curl -X POST 0.0.0.0:5000/curl -H 'Content-Type: application/json' -d '"Sn1O1 Sn1O2 Sn2O3 Zn1O1 Zn1Sn1O2"'
+To test the docker, first build and run the image:  
+$ docker build -t app-hf  .  
+$ docker run -p 5000:5000 app-hf  
+and then use the curl command line:  
+$ curl -X POST 0.0.0.0:5000/curl -H 'Content-Type: application/json' -d '"Sn1O1 Sn1O2 Sn2O3 Zn1O1 Zn1Sn1O2"'  
 
 ## More is coming soon
 
