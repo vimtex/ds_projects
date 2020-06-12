@@ -50,27 +50,36 @@ tr:nth-child(even) {
 
 </style>
 
-<title>{{title}}</title>
+<title> Deep Learning for Heat of Formation </title>
 </head>
 <body>
 
-<h1 style="background-color:powderblue; border:2px solid DodgerBlue;">{{title}}</h1>
+{% if title %}
+  <h1 style="background-color:powderblue; border:2px solid DodgerBlue;">{{title}}</h1>
+{% else %}
+  <h1 style="background-color:powderblue; border:2px solid DodgerBlue;">Deep Learning for Heat of Formation</h1>
+{% endif %}
 <!-- hr -->
 <p>Server is up:)</p>
 
 <h3>About</h3>
 <p>Here is a concise but highly accurate neural network model 
 for predicting the heat of formation of a compound based on its 
-chemical formula. 
+chemical formula. The training data is from <a href=http://oqmd.org/>OQMD</a>.
 <br>
-The accuracy is about 43 meV/atom, reaching the so-called 
+The accuracy in MAE is about 43 meV/atom, reaching the so-called 
 <a href="https://chemistry.stackexchange.com/questions/62001/why-is-chemical-accuracy-defined-as-1-kcal-mol#:~:text=Chemical%20accuracy%20is%20the%20accuracy,mol%20or%204%20kJ%2Fmol">Chemical Accuracy</a>, 
 and hence allowing for realistic applications without complicated atomic simulations.</p>
 
 <h3>Usage</h3> 
 <p>
-Input: space seprated chemical formula, number 1 is needed (Sn1O1 Sn.5O1.0).
+Input: space-separated valid chemical formulas with fraction numbers allowed (the number 1 is needed, like: Sn1O1 Sn.5O1.0).
 <br>
+</p>
+{% if error %}
+<div style="color:red;">
+{% endif %}
+<p>
 <b>Currently, only the following elements are supported:</b>
 </p>
 <pre>
@@ -79,6 +88,12 @@ Input: space seprated chemical formula, number 1 is needed (Sn1O1 Sn.5O1.0).
     Rb Sr Y  Zr Nb Mo Tc Ru Rh Pd Ag Cd In Sn Sb Te I  Xe
     Cs Ba La Ce Pr Nd Pm Sm Eu Gd Tb Dy Ho Er Tm Yb Lu Hf Ta W Re Os Ir Pt Au Hg Tl Pb Bi Ac Th Pa U Np Pu
 </pre>
+{% if error %}
+<p> {{error}} </p>
+{% endif %}
+{% if error %}
+</div>
+{% endif %}
 
 <form action="{{ url_for('main') }}" method="POST">
     <fieldset>

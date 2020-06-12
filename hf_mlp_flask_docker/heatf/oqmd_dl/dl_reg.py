@@ -30,7 +30,7 @@ class Preprocess(BaseEstimator, TransformerMixin):
     eles = re.sub('[.0-9]', ' ', formula).split()
     sys.tracebacklimit = 0
     for A in eles:
-      assert A in self._all_elements, 'Sorry, element "{0}" not supported by this model.'.format(A)
+      assert A in self._all_elements, 'Element "{0}" not supported yet.'.format(A)
     for A,x in self._pattern.findall(formula):
     # assert A in self._all_elements, 'Sorry, element "{0}" not supported by this model.'.format(A)
       features[self._all_elements.index(A)] = float(x)

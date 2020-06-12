@@ -6,6 +6,7 @@
 #   curl -X POST 0.0.0.0:5000/predict -H 'Content-Type: application/json' -d "\"Sn1O2 Sn2O3\""
 #   curl -X POST 0.0.0.0:5000/predict -H 'Content-Type: application/json' -d "\"Sn1O1 Sn1O2 Sn2O3 Zn1O1 Zn1Sn1O2 Zn1Sn1O3 Zn2Sn1O3 Zn3Sn1O4\""
 
+import re
 from heatf import Model
 from flask import Flask, jsonify, request, render_template
 
@@ -21,17 +22,29 @@ def flask_app():
   def main():
 
     if request.method == 'GET':
-      return render_template('main.html', 
-                              title='Deep Learning for Heat of Formation')
+      return render_template('main.html')
     
 
     if request.method == 'POST':
       data = request.form["Compounds"]
-      pred = model.predict( data )
-      return render_template('main.html', 
-                              title='Deep Learning for Heat of Formation: Have Fun!',
-                              result=pred)
-  
+      # input check
+      for cf in data.split():
+        regex = re.pattern
+      # if input not right:
+      #   return render_template('main.html',
+      #                           title='Deep Learning for Heat of Formation: Wrong Input, Try Again.',
+      #                           error="Please check your input.")
+
+      try: 
+        pred = model.predict( data )
+        return render_template('main.html', 
+                                title='Deep Learning for Heat of Formation: Have Fun!',
+                                result=pred)
+      except AssertionError as err:
+        return render_template('main.html',
+                                title='Deep Learning for Heat of Formation: Wrong Input, Try Again.',
+                                error=err)
+
   @app.route('/curl', methods=['POST'])
   def curl():
     if request.method == 'POST':
@@ -44,5 +57,5 @@ def flask_app():
 
 if __name__ == "__main__":
   app = flask_app()
-  #app.run(host='0.0.0.0', port=5000,  debug=True)
-  app.run(host='0.0.0.0', port=5000)
+  app.run(host='0.0.0.0', port=5000,  debug=True)
+  #app.run(host='0.0.0.0', port=5000)
